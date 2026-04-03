@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Times Calendar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f1923;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 560px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .emoji {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #8899aa;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .card {
+            background: #1a2633;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            font-size: 14px;
+            color: #8899aa;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0f1923;
+            border: 1px solid #2a3a4a;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 16px;
+            margin-bottom: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: #4a9eff;
+        }
+
+        input::placeholder {
+            color: #445566;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #4a9eff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #3a8eef;
+        }
+
+        .result {
+            display: none;
+            margin-top: 24px;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #8899aa;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        .link-box {
+            display: flex;
+            gap: 8px;
+        }
+
+        .link-box input {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #8899aa;
+        }
+
+        .copy-btn {
+            width: auto;
+            padding: 14px 20px;
+            white-space: nowrap;
+            background: #2a3a4a;
+        }
+
+        .copy-btn:hover {
+            background: #3a4a5a;
+        }
+
+        .instructions {
+            margin-top: 24px;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            font-size: 14px;
+            color: #8899aa;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .step {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 10px;
+            align-items: flex-start;
+        }
+
+        .step-num {
+            background: #2a3a4a;
+            color: #4a9eff;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step p {
+            font-size: 14px;
+            color: #8899aa;
+            line-height: 1.5;
+            padding-top: 2px;
+        }
+
+        .footer {
+            font-size: 13px;
+            color: #445566;
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">🕌</div>
+        <h1>Prayer Times Calendar</h1>
+        <p class="subtitle">Get your daily prayer times automatically added to Google, Apple, or Outlook Calendar — with duration blocks so you never miss a salah.</p>
+
+        <div class="card">
+            <label for="city">Your city</label>
+            <input type="text" id="city" placeholder="e.g. Nottingham, London, Manchester" />
+            <button onclick="generateLink()">Get my calendar link</button>
+
+            <div class="result" id="result">
+                <p class="result-label">Your personal subscription link</p>
+                <div class="link-box">
+                    <input type="text" id="calendar-link" readonly />
+                    <button class="copy-btn" onclick="copyLink()">Copy</button>
+                </div>
+
+                <div class="instructions">
+                    <h3>How to add to your calendar</h3>
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <p><strong>Google:</strong> Click + next to "Other calendars" → From URL → paste your link</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <p><strong>Apple:</strong> Open Calendar → File → New Calendar Subscription → paste your link</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <p><strong>Outlook:</strong> Add Calendar → Subscribe from web → paste your link</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="footer">Free forever. No account needed. Works with any calendar app.</p>
+    </div>
+
+    <script>
+        function generateLink() {
+            const city = document.getElementById('city').value.trim();
+            if (!city) {
+                alert('Please enter your city first');
+                return;
+            }
+            const link = `${window.location.origin}/calendar/${encodeURIComponent(city)}.ics`;
+            document.getElementById('calendar-link').value = link;
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function copyLink() {
+            const link = document.getElementById('calendar-link');
+            link.select();
+            navigator.clipboard.writeText(link.value);
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 2000);
+        }
+
+        document.getElementById('city').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') generateLink();
+        });
+    </script>
+</body>
+</html>
