@@ -1,11 +1,4 @@
-Yes — the cache is working but only after the first load. The problem is every new city has to fetch 60 days of API calls for the first time, which is slow.
-The proper fix is to fetch all 60 days in parallel rather than one at a time. Right now it's doing this:
-Day 1 → wait → Day 2 → wait → Day 3 → wait...
-We want it to do this:
-Day 1, Day 2, Day 3, Day 4... all at the same time
-This is called concurrent requests and it'll cut the load time from 15 seconds down to 2-3 seconds even for a new city.
-Go to VS Code, Ctrl+A, delete everything in app.py and paste this:
-pythonfrom flask import Flask, Response, render_template
+from flask import Flask, Response, render_template
 import urllib.request
 import json
 from icalendar import Calendar, Event
@@ -86,7 +79,7 @@ def prayer_calendar(city):
             event.add('summary', f'🕌 {prayer}')
             event.add('dtstart', start)
             event.add('dtend', end)
-            event.add('description', f'Time for {prayer} — {duration} mins')
+            event.add('description', f'Time for {prayer} - {duration} mins')
             event.add('uid', f'{prayer}-{date.strftime("%Y%m%d")}@prayertimes')
             cal.add_component(event)
 
@@ -99,7 +92,7 @@ def prayer_calendar(city):
         sunrise_event.add('summary', '🌅 Sunrise')
         sunrise_event.add('dtstart', sunrise_start)
         sunrise_event.add('dtend', sunrise_end)
-        sunrise_event.add('description', 'Sunrise — end of Fajr time')
+        sunrise_event.add('description', 'Sunrise - end of Fajr time')
         sunrise_event.add('uid', f'Sunrise-{date.strftime("%Y%m%d")}@prayertimes')
         cal.add_component(sunrise_event)
 
