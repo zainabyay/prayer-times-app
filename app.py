@@ -4,15 +4,29 @@ import json
 from icalendar import Calendar, Event
 from datetime import datetime, timedelta
 import pytz
+from flask_caching import Cache
 
 app = Flask(__name__)
 
+cache = Cache(app, config={
+    'CACHE_TYPE': 'SimpleCache',
+    'CACHE_DEFAULT_TIMEOUT': 43200
+})
+
 def get_prayer_times_for_date(city, date):
+    cache_key = f"{city}-{date.strftime('%Y-%m-%d')}"
+    cached = cache.get(cache_key)
+    if cached:
+        return cached
+
     date_str = date.strftime('%d-%m-%Y')
     url = f"https://api.aladhan.com/v1/timingsByCity/{date_str}?city={city}&country=GB&method=1"
     with urllib.request.urlopen(url) as response:
         data = json.loads(response.read())
-    return data['data']['timings']
+    timings = data['data']['timings']
+
+    cache.set(cache_key, timings)
+    return timings
 
 @app.route('/')
 def index():
