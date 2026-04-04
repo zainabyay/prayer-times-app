@@ -2,3 +2,4 @@ flask
 icalendar
 pytz
 gunicorn
+flask-caching
