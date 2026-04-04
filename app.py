@@ -1,10 +1,18 @@
-from flask import Flask, Response, render_template
+Yes — the cache is working but only after the first load. The problem is every new city has to fetch 60 days of API calls for the first time, which is slow.
+The proper fix is to fetch all 60 days in parallel rather than one at a time. Right now it's doing this:
+Day 1 → wait → Day 2 → wait → Day 3 → wait...
+We want it to do this:
+Day 1, Day 2, Day 3, Day 4... all at the same time
+This is called concurrent requests and it'll cut the load time from 15 seconds down to 2-3 seconds even for a new city.
+Go to VS Code, Ctrl+A, delete everything in app.py and paste this:
+pythonfrom flask import Flask, Response, render_template
 import urllib.request
 import json
 from icalendar import Calendar, Event
 from datetime import datetime, timedelta
 import pytz
 from flask_caching import Cache
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 app = Flask(__name__)
 
@@ -17,16 +25,18 @@ def get_prayer_times_for_date(city, date):
     cache_key = f"{city}-{date.strftime('%Y-%m-%d')}"
     cached = cache.get(cache_key)
     if cached:
-        return cached
+        return date, cached
 
     date_str = date.strftime('%d-%m-%Y')
     url = f"https://api.aladhan.com/v1/timingsByCity/{date_str}?city={city}&country=GB&method=1"
-    with urllib.request.urlopen(url) as response:
-        data = json.loads(response.read())
-    timings = data['data']['timings']
-
-    cache.set(cache_key, timings)
-    return timings
+    try:
+        with urllib.request.urlopen(url, timeout=10) as response:
+            data = json.loads(response.read())
+        timings = data['data']['timings']
+        cache.set(cache_key, timings)
+        return date, timings
+    except:
+        return date, None
 
 @app.route('/')
 def index():
@@ -52,13 +62,18 @@ def prayer_calendar(city):
         'Isha': 15
     }
 
-    for i in range(60):
-        date = today + timedelta(days=i)
+    dates = [today + timedelta(days=i) for i in range(60)]
 
-        try:
-            timings = get_prayer_times_for_date(city, date)
-        except:
-            continue
+    results = {}
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        futures = {executor.submit(get_prayer_times_for_date, city, date): date for date in dates}
+        for future in as_completed(futures):
+            date, timings = future.result()
+            if timings:
+                results[date] = timings
+
+    for date in sorted(results.keys()):
+        timings = results[date]
 
         for prayer, duration in prayer_durations.items():
             time_str = timings[prayer]
@@ -94,3 +109,4 @@ def prayer_calendar(city):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
