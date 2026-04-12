@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salah Times — Prayer Times for Your Calendar</title>
+    <title>Salah Times - Prayer Times for Your Calendar</title>
     <style>
         :root {
             --bg: #fafaf8;
@@ -37,11 +37,7 @@
             --toggle-text: #f5f0e8;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -73,22 +69,11 @@
             gap: 6px;
         }
 
-        .theme-toggle:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
+        .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
-        .container {
-            max-width: 580px;
-            width: 100%;
-            text-align: center;
-        }
+        .container { max-width: 580px; width: 100%; text-align: center; }
 
-        .icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-            display: block;
-        }
+        .icon { font-size: 48px; margin-bottom: 20px; display: block; }
 
         .tagline {
             font-size: 12px;
@@ -108,9 +93,7 @@
             letter-spacing: -0.5px;
         }
 
-        h1 span {
-            color: var(--accent);
-        }
+        h1 span { color: var(--accent); }
 
         .divider {
             width: 40px;
@@ -188,9 +171,64 @@
             background: var(--accent-light);
         }
 
-        input[type="text"]::placeholder {
-            color: var(--text-muted);
+        input[type="text"]::placeholder { color: var(--text-muted); }
+
+        .reminders-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            cursor: pointer;
         }
+
+        .reminders-toggle-label {
+            font-size: 15px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .reminders-toggle-sublabel {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--border);
+            border-radius: 24px;
+            transition: 0.3s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        input:checked + .slider { background: var(--accent); }
+        input:checked + .slider:before { transform: translateX(20px); }
 
         .btn-primary {
             width: 100%;
@@ -203,17 +241,10 @@
             font-weight: 700;
             cursor: pointer;
             transition: opacity 0.2s, transform 0.1s;
-            letter-spacing: 0.3px;
         }
 
-        .btn-primary:hover {
-            opacity: 0.88;
-            transform: translateY(-1px);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
+        .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+        .btn-primary:active { transform: translateY(0); }
 
         .result {
             display: none;
@@ -232,10 +263,7 @@
             text-transform: uppercase;
         }
 
-        .link-box {
-            display: flex;
-            gap: 8px;
-        }
+        .link-box { display: flex; gap: 8px; }
 
         .link-box input {
             margin-bottom: 0;
@@ -258,14 +286,9 @@
             white-space: nowrap;
         }
 
-        .btn-copy:hover {
-            background: var(--accent-border);
-        }
+        .btn-copy:hover { background: var(--accent-border); }
 
-        .instructions {
-            margin-top: 24px;
-            text-align: left;
-        }
+        .instructions { margin-top: 24px; text-align: left; }
 
         .instructions-title {
             font-size: 12px;
@@ -276,12 +299,7 @@
             text-transform: uppercase;
         }
 
-        .step {
-            display: flex;
-            gap: 14px;
-            margin-bottom: 12px;
-            align-items: flex-start;
-        }
+        .step { display: flex; gap: 14px; margin-bottom: 12px; align-items: flex-start; }
 
         .step-num {
             background: var(--accent-light);
@@ -298,22 +316,10 @@
             border: 1px solid var(--accent-border);
         }
 
-        .step p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            padding-top: 3px;
-        }
+        .step p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; padding-top: 3px; }
+        .step p strong { color: var(--text-primary); }
 
-        .step p strong {
-            color: var(--text-primary);
-        }
-
-        .footer {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 16px;
-        }
+        .footer { font-size: 13px; color: var(--text-muted); margin-top: 16px; }
     </style>
 </head>
 <body>
@@ -338,6 +344,18 @@
         <div class="card">
             <label for="city">Your city</label>
             <input type="text" id="city" placeholder="e.g. Nottingham, London, Dubai" />
+
+            <div class="reminders-toggle" onclick="toggleReminders()">
+                <div>
+                    <div class="reminders-toggle-label">10 minute reminders</div>
+                    <div class="reminders-toggle-sublabel">Get a notification before each prayer</div>
+                </div>
+                <label class="switch" onclick="event.stopPropagation()">
+                    <input type="checkbox" id="reminders" checked onchange="updateLink()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
             <button class="btn-primary" onclick="generateLink()">Get my prayer calendar →</button>
 
             <div class="result" id="result">
@@ -365,7 +383,7 @@
             </div>
         </div>
 
-        <p class="footer">No account needed · Works everywhere · Built with ♡ for the Muslim community</p>
+        <p class="footer">No account needed · Works everywhere · Google Calendar may take up to 24hrs to populate on first use · Built with ♡ for the Muslim community</p>
     </div>
 
     <script>
@@ -377,13 +395,28 @@
             document.getElementById('toggle-label').textContent = isDark ? 'Dark mode' : 'Light mode';
         }
 
+        function toggleReminders() {
+            const checkbox = document.getElementById('reminders');
+            checkbox.checked = !checkbox.checked;
+            updateLink();
+        }
+
+        function updateLink() {
+            const city = document.getElementById('city').value.trim();
+            if (!city) return;
+            const reminders = document.getElementById('reminders').checked;
+            const link = `${window.location.origin}/calendar/${encodeURIComponent(city)}.ics?reminders=${reminders}`;
+            document.getElementById('calendar-link').value = link;
+        }
+
         function generateLink() {
             const city = document.getElementById('city').value.trim();
             if (!city) {
                 alert('Please enter your city first');
                 return;
             }
-            const link = `${window.location.origin}/calendar/${encodeURIComponent(city)}.ics`;
+            const reminders = document.getElementById('reminders').checked;
+            const link = `${window.location.origin}/calendar/${encodeURIComponent(city)}.ics?reminders=${reminders}`;
             document.getElementById('calendar-link').value = link;
             document.getElementById('result').style.display = 'block';
         }

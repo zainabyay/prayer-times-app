@@ -1,4 +1,4 @@
-from flask import Flask, Response, render_template
+from flask import Flask, Response, render_template, request
 import urllib.request
 import json
 from icalendar import Calendar, Event, Alarm
@@ -46,6 +46,8 @@ def index():
 
 @app.route('/calendar/<city>.ics')
 def prayer_calendar(city):
+    reminders = request.args.get('reminders', 'true').lower() == 'true'
+
     cal = Calendar()
     cal.add('prodid', '-//Prayer Times//EN')
     cal.add('version', '2.0')
@@ -95,7 +97,8 @@ def prayer_calendar(city):
             event.add('dtend', end)
             event.add('description', f'Time for {prayer} - {duration} mins')
             event.add('uid', f'{prayer}-{date.strftime("%Y%m%d")}@prayertimes')
-            event.add_component(make_alarm(10))
+            if reminders:
+                event.add_component(make_alarm(10))
             cal.add_component(event)
 
         sunrise_str = timings['Sunrise'].split(' ')[0]
