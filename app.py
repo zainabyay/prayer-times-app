@@ -1,7 +1,7 @@
 from flask import Flask, Response, render_template
 import urllib.request
 import json
-from icalendar import Calendar, Event
+from icalendar import Calendar, Event, Alarm
 from datetime import datetime, timedelta
 import pytz
 from flask_caching import Cache
@@ -17,11 +17,9 @@ def get_monthly_prayer_times(city, year, month):
     cache_key = f"{city}-{year}-{month}"
     cached = cache.get(cache_key)
     if cached:
-        print(f"Cache hit for {city} {year}/{month}")
         return cached
 
-    print(f"Fetching from API: {city} {year}/{month}")
-    url = f"https://api.aladhan.com/v1/calendarByCity/{year}/{month}?city={city}&country=GB&method=1"
+    url = f"https://api.aladhan.com/v1/calendarByCity/{year}/{month}?city={city}&country=GB&method=15"
     try:
         with urllib.request.urlopen(url, timeout=15) as response:
             data = json.loads(response.read())
@@ -30,11 +28,17 @@ def get_monthly_prayer_times(city, year, month):
             date_str = day_data['date']['gregorian']['date']
             timings_by_day[date_str] = day_data['timings']
         cache.set(cache_key, timings_by_day)
-        print(f"Got {len(timings_by_day)} days")
         return timings_by_day
     except Exception as e:
         print(f"Error: {e}")
         return {}
+
+def make_alarm(minutes_before):
+    alarm = Alarm()
+    alarm.add('action', 'DISPLAY')
+    alarm.add('description', f'Prayer time in {minutes_before} minutes')
+    alarm.add('trigger', timedelta(minutes=-minutes_before))
+    return alarm
 
 @app.route('/')
 def index():
@@ -42,7 +46,6 @@ def index():
 
 @app.route('/calendar/<city>.ics')
 def prayer_calendar(city):
-    print(f"Request for {city}")
     cal = Calendar()
     cal.add('prodid', '-//Prayer Times//EN')
     cal.add('version', '2.0')
@@ -66,12 +69,10 @@ def prayer_calendar(city):
         date = today + timedelta(days=i)
         months_needed.add((date.year, date.month))
 
-    print(f"Fetching {len(months_needed)} months for {city}")
     all_timings = {}
     for year, month in months_needed:
         monthly = get_monthly_prayer_times(city, year, month)
         all_timings.update(monthly)
-    print(f"Total days fetched: {len(all_timings)}")
 
     for i in range(60):
         date = today + timedelta(days=i)
@@ -94,6 +95,7 @@ def prayer_calendar(city):
             event.add('dtend', end)
             event.add('description', f'Time for {prayer} - {duration} mins')
             event.add('uid', f'{prayer}-{date.strftime("%Y%m%d")}@prayertimes')
+            event.add_component(make_alarm(10))
             cal.add_component(event)
 
         sunrise_str = timings['Sunrise'].split(' ')[0]
@@ -109,11 +111,9 @@ def prayer_calendar(city):
         sunrise_event.add('uid', f'Sunrise-{date.strftime("%Y%m%d")}@prayertimes')
         cal.add_component(sunrise_event)
 
-    print("Done building calendar")
     response = Response(cal.to_ical(), mimetype='text/calendar')
     response.headers['Content-Disposition'] = 'inline'
     return response
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
