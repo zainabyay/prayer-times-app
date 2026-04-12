@@ -86,7 +86,7 @@ def prayer_calendar(city):
             time_str = timings[prayer].split(' ')[0]
             hour, minute = map(int, time_str.split(':'))
 
-            start = date.replace(hour=hour, minute=minute, second=0, microsecond=0)
+            start = tz.localize(date.replace(tzinfo=None).replace(hour=hour, minute=minute, second=0, microsecond=0))
             end = start + timedelta(minutes=duration)
 
             event = Event()
@@ -100,7 +100,7 @@ def prayer_calendar(city):
 
         sunrise_str = timings['Sunrise'].split(' ')[0]
         hour, minute = map(int, sunrise_str.split(':'))
-        sunrise_start = date.replace(hour=hour, minute=minute, second=0, microsecond=0)
+        sunrise_start = tz.localize(date.replace(tzinfo=None).replace(hour=hour, minute=minute, second=0, microsecond=0))
         sunrise_end = sunrise_start + timedelta(minutes=5)
 
         sunrise_event = Event()
@@ -117,3 +117,4 @@ def prayer_calendar(city):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
