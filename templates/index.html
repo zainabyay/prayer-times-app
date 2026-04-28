@@ -335,6 +335,7 @@
 .faq-link:hover { opacity: 0.7; }
 
     </style>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
 </head>
 <body>
     <button class="theme-toggle" onclick="toggleTheme()">
@@ -343,9 +344,9 @@
     </button>
 
     <div class="container">
-        <span class="icon">☽</span>
-        <p class="tagline">Never miss a prayer</p>
-        <h1>Prayer times in your <span>calendar</span></h1>
+   <img src="{{ url_for('static', filename='logo.png') }}" alt="Prayer Blocks" style="height: 60px; width: auto; margin-bottom: 20px;">
+<p class="tagline">Never miss a prayer</p>
+<h1>Prayer times in your <span>calendar</span></h1>
         <div class="divider"></div>
         <p class="subtitle">Automatically add Fajr, Dhuhr, Asr, Maghrib and Isha to Google, Apple, or Outlook Calendar — with duration blocks so you always have time to pray.</p>
 
