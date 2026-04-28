@@ -44,6 +44,10 @@ def make_alarm(minutes_before):
 def index():
     return render_template('index.html')
 
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
 @app.route('/calendar/<city>.ics')
 def prayer_calendar(city):
     reminders = request.args.get('reminders', 'true').lower() == 'true'
@@ -120,4 +124,3 @@ def prayer_calendar(city):
 
 if __name__ == '__main__':
     app.run(debug=True)
-    

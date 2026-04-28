@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Salah Times</title>
+    <style>
+        :root {
+            --bg: #fafaf8;
+            --bg-card: #ffffff;
+            --bg-input: #f5f5f2;
+            --border: #e8e4dc;
+            --accent: #1a7a6e;
+            --accent-light: rgba(26, 122, 110, 0.08);
+            --accent-border: rgba(26, 122, 110, 0.2);
+            --text-primary: #1a1a18;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --shadow: 0 4px 24px rgba(0,0,0,0.06);
+            --toggle-bg: #e8e4dc;
+            --toggle-text: #1a1a18;
+        }
+ 
+        [data-theme="dark"] {
+            --bg: #0d1b2a;
+            --bg-card: rgba(255,255,255,0.04);
+            --bg-input: rgba(255,255,255,0.05);
+            --border: rgba(26, 210, 188, 0.2);
+            --accent: #1ad2bc;
+            --accent-light: rgba(26, 210, 188, 0.08);
+            --accent-border: rgba(26, 210, 188, 0.25);
+            --text-primary: #f5f0e8;
+            --text-secondary: #8a9bb0;
+            --text-muted: #3a5068;
+            --shadow: 0 4px 24px rgba(0,0,0,0.3);
+            --toggle-bg: rgba(255,255,255,0.08);
+            --toggle-text: #f5f0e8;
+        }
+ 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+ 
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--toggle-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--toggle-text);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+ 
+        .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+ 
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+ 
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 40px;
+            transition: opacity 0.2s;
+        }
+ 
+        .back-link:hover { opacity: 0.7; }
+ 
+        .page-header {
+            margin-bottom: 48px;
+        }
+ 
+        .page-header .icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 16px;
+        }
+ 
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+ 
+        .page-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+ 
+        .section {
+            margin-bottom: 48px;
+        }
+ 
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+ 
+        .faq-item {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 10px;
+            background: var(--bg-card);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+ 
+        .faq-item:hover {
+            border-color: var(--accent-border);
+        }
+ 
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            padding: 18px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-primary);
+        }
+ 
+        .faq-question-text {
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+ 
+        .faq-icon {
+            color: var(--accent);
+            font-size: 20px;
+            font-weight: 300;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+ 
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+ 
+        .faq-answer {
+            display: none;
+            padding: 0 20px 18px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+        }
+ 
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+ 
+        .faq-answer code {
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+ 
+        .faq-answer ol {
+            margin: 12px 0 0 20px;
+        }
+ 
+        .faq-answer ol li {
+            margin-bottom: 6px;
+        }
+ 
+        .cta {
+            background: var(--accent-light);
+            border: 1px solid var(--accent-border);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            margin-top: 48px;
+        }
+ 
+        .cta p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+ 
+        .cta a {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+ 
+        .cta a:hover { opacity: 0.88; }
+ 
+        .footer {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <span id="toggle-icon">🌙</span>
+        <span id="toggle-label">Dark mode</span>
+    </button>
+ 
+    <div class="container">
+        <a href="/" class="back-link">← Back to Salah Times</a>
+ 
+        <div class="page-header">
+            <span class="icon">☽</span>
+            <h1>Frequently asked questions</h1>
+            <p>Everything you need to know about adding prayer times to your calendar.</p>
+        </div>
+ 
+        <!-- GETTING STARTED -->
+        <div class="section">
+            <p class="section-title">Getting started</p>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">What is this and how does it work?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Salah Times generates a personalised calendar subscription link for your city. Once you add it to your calendar app, it automatically populates with all five daily prayer times as time blocks — updated every day across the year. No app to download, no account needed.
+                </div>
+            </div>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">Is it free?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes, completely free forever.
+                </div>
+            </div>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">Do I need to create an account?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    No. Just enter your city, get your link, and add it to your calendar. That's it.
+                </div>
+            </div>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">How accurate are the prayer times?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Prayer times are generated using established astronomical calculation methods. You can select your preferred calculation method (such as MWL, ISNA, or Egypt) when generating your link. Times are recalculated daily so they stay accurate across the year, including seasonal changes.
+                </div>
+            </div>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">Do I need to re-subscribe every year?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    No. Your subscription link stays active and updates automatically. It always serves a rolling 60-day window of prayer times, so your calendar stays current without any action on your part.
+                </div>
+            </div>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">What if I'm travelling and need times for a different city?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    A holiday location override is coming soon — this will let you temporarily switch your feed to a travel destination without losing your home city settings. For now, you can generate a separate link for your travel city and add it as a second calendar subscription while you're away.
+                </div>
+            </div>
+        </div>
+ 
+        <!-- ADDING TO YOUR CALENDAR -->
+        <div class="section">
+            <p class="section-title">Adding to your calendar</p>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">How do I add it to Google Calendar?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Google Calendar subscriptions can only be set up on desktop. Go to <code>calendar.google.com</code>, click the + next to "Other calendars" in the left sidebar, select "From URL", paste your link and click Add. Once added it will also appear in the Google Calendar app on your phone automatically.
+                </div>
+            </div>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">How do I add it to Apple Calendar?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    You can add it on iPhone or Mac.
+                    <ol>
+                        <li><strong>iPhone:</strong> Go to Settings → Calendar → Accounts → Add Account → Other → Add Subscribed Calendar, then paste your link.</li>
+                        <li><strong>Mac:</strong> Open Calendar, go to File → New Calendar Subscription, and paste your link.</li>
+                    </ol>
+                    Note: the iCloud web version on Windows does not support calendar subscriptions. Once added via iCloud it syncs across all your Apple devices.
+                </div>
+            </div>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">How do I add it to Outlook?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Outlook subscriptions must be set up on desktop or web — the mobile app does not support adding new subscriptions directly. Go to <code>outlook.com</code> or Outlook desktop, click Add Calendar → Subscribe from web, and paste your link. Once added it will appear in the Outlook mobile app on your phone automatically.
+                </div>
+            </div>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">How long does it take for events to appear?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    This depends on your calendar app. Apple Calendar and Outlook are usually within a few minutes. Google Calendar can take anywhere from a few hours to 24 hours on first use — this is a Google limitation, not an issue with your link. If nothing has appeared after 24 hours, try removing and re-adding the calendar.
+                </div>
+            </div>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">Can my family or colleagues see my prayer times?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Only if you choose to share them. When you add your subscription link to your own personal calendar, the events are private — visible only to you, as the subscription feed is specific to your calendar. Adding your prayer times to your calendar helps you be intentional about your time at work and take an active role in protecting it. If you want family members or work colleagues to see your prayer times, they can subscribe to the same link themselves, or you can add it to a shared calendar.    
+                
+                </div>
+        </div>
+ 
+        <!-- REMINDERS -->
+        <div class="section">
+            <p class="section-title">Reminders</p>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">Will I get notifications before each prayer?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    If you have reminders turned on when generating your link, a 10 minute alert is built into each prayer event. This works reliably on Apple Calendar and Outlook. Google Calendar on desktop does not support alerts from calendar subscriptions, but you may still receive notifications via the Google Calendar mobile app depending on your device settings.
+                </div>
+            </div>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">Why can't I see reminders in Google Calendar?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Google Calendar desktop ignores alerts set in external calendar subscriptions — this is a Google limitation and affects all similar tools, not just ours. For the most reliable notifications we recommend using Apple Calendar or Outlook, or using a dedicated prayer app like Pillars alongside this tool.
+                </div>
+            </div>
+        </div>
+ 
+        <!-- PRIVACY & DATA -->
+        <div class="section">
+            <p class="section-title">Privacy & data</p>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">Do you store any of my data?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    No personal data is stored. We don't ask for your name, email, or any account details. Your city name is used to calculate prayer times and is temporarily cached to keep the app fast, but it is not linked to you in any way.
+                </div>
+            </div>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggle(this)">
+                    <span class="faq-question-text">What happens to my subscription link if I clear my browser?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Your link still works — it lives on our server, not in your browser. If you lose it, just go back to the app, enter the same city, and generate a new one. Any previously added calendar subscriptions using your old link will continue to work fine.
+                </div>
+            </div>
+        </div>
+ 
+        <div class="cta">
+            <p>Ready to add prayer times to your calendar?</p>
+            <a href="/">Get my calendar link →</a>
+        </div>
+ 
+        <p class="footer">No account needed · Works everywhere · Built with ♡ for the Muslim community</p>
+    </div>
+ 
+    <script>
+        function toggle(btn) {
+            const item = btn.closest('.faq-item');
+            item.classList.toggle('open');
+        }
+ 
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('toggle-icon').textContent = isDark ? '🌙' : '☀️';
+            document.getElementById('toggle-label').textContent = isDark ? 'Dark mode' : 'Light mode';
+        }
+    </script>
+</body>
+</html>
