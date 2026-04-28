@@ -320,6 +320,20 @@
         .step p strong { color: var(--text-primary); }
 
         .footer { font-size: 13px; color: var(--text-muted); margin-top: 16px; }
+
+                .faq-link {
+    display: block;
+    font-size: 14px;
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+
+.faq-link:hover { opacity: 0.7; }
+
     </style>
 </head>
 <body>
@@ -383,7 +397,8 @@
             </div>
         </div>
 
-        <p class="footer">No account needed · Works everywhere · <a href="/faq" style="color: var(--accent); text-decoration: none;">FAQs</a> · Built with ♡ for the Muslim community</p>
+        <a href="/faq" class="faq-link">Have questions about how it works? Read the FAQ →</a>
+<p class="footer">No account needed · Works everywhere · Built with ♡ for the Muslim community</p>
     </div>
 
     <script>
