@@ -20,7 +20,7 @@
             --toggle-bg: #e8e4dc;
             --toggle-text: #1a1a18;
         }
-
+ 
         [data-theme="dark"] {
             --bg: #0d1b2a;
             --bg-card: rgba(255,255,255,0.04);
@@ -36,9 +36,9 @@
             --toggle-bg: rgba(255,255,255,0.08);
             --toggle-text: #f5f0e8;
         }
-
+ 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+ 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: var(--bg);
@@ -50,7 +50,7 @@
             padding: 20px;
             transition: background 0.3s, color 0.3s;
         }
-
+ 
         .theme-toggle {
             position: fixed;
             top: 20px;
@@ -68,13 +68,13 @@
             align-items: center;
             gap: 6px;
         }
-
+ 
         .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
-
+ 
         .container { max-width: 580px; width: 100%; text-align: center; }
-
+ 
         .icon { font-size: 48px; margin-bottom: 20px; display: block; }
-
+ 
         .tagline {
             font-size: 12px;
             font-weight: 700;
@@ -83,7 +83,7 @@
             color: var(--accent);
             margin-bottom: 16px;
         }
-
+ 
         h1 {
             font-size: 28px;
             font-weight: 700;
@@ -92,9 +92,9 @@
             line-height: 1.2;
             letter-spacing: -0.5px;
         }
-
+ 
         h1 span { color: var(--accent); }
-
+ 
         .divider {
             width: 40px;
             height: 2px;
@@ -103,7 +103,7 @@
             border-radius: 2px;
             opacity: 0.4;
         }
-
+ 
         .subtitle {
             font-size: 16px;
             color: var(--text-secondary);
@@ -113,7 +113,7 @@
             margin-left: auto;
             margin-right: auto;
         }
-
+ 
         .features {
             display: flex;
             gap: 10px;
@@ -121,7 +121,7 @@
             justify-content: center;
             flex-wrap: wrap;
         }
-
+ 
         .feature {
             background: var(--accent-light);
             border: 1px solid var(--accent-border);
@@ -131,7 +131,7 @@
             color: var(--accent);
             font-weight: 500;
         }
-
+ 
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -141,7 +141,7 @@
             box-shadow: var(--shadow);
             transition: background 0.3s, border 0.3s;
         }
-
+ 
         label {
             display: block;
             text-align: left;
@@ -152,7 +152,7 @@
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
-
+ 
         input[type="text"] {
             width: 100%;
             padding: 14px 18px;
@@ -165,14 +165,14 @@
             outline: none;
             transition: border-color 0.2s, background 0.2s;
         }
-
+ 
         input[type="text"]:focus {
             border-color: var(--accent);
             background: var(--accent-light);
         }
-
+ 
         input[type="text"]::placeholder { color: var(--text-muted); }
-
+ 
         .reminders-toggle {
             display: flex;
             align-items: center;
@@ -184,28 +184,28 @@
             margin-bottom: 16px;
             cursor: pointer;
         }
-
+ 
         .reminders-toggle-label {
             font-size: 15px;
             color: var(--text-primary);
             font-weight: 500;
         }
-
+ 
         .reminders-toggle-sublabel {
             font-size: 12px;
             color: var(--text-secondary);
             margin-top: 2px;
         }
-
+ 
         .switch {
             position: relative;
             width: 44px;
             height: 24px;
             flex-shrink: 0;
         }
-
+ 
         .switch input { opacity: 0; width: 0; height: 0; }
-
+ 
         .slider {
             position: absolute;
             cursor: pointer;
@@ -214,7 +214,7 @@
             border-radius: 24px;
             transition: 0.3s;
         }
-
+ 
         .slider:before {
             position: absolute;
             content: "";
@@ -226,10 +226,10 @@
             border-radius: 50%;
             transition: 0.3s;
         }
-
+ 
         input:checked + .slider { background: var(--accent); }
         input:checked + .slider:before { transform: translateX(20px); }
-
+ 
         .btn-primary {
             width: 100%;
             padding: 15px;
@@ -242,17 +242,17 @@
             cursor: pointer;
             transition: opacity 0.2s, transform 0.1s;
         }
-
+ 
         .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
         .btn-primary:active { transform: translateY(0); }
-
+ 
         .result {
             display: none;
             margin-top: 28px;
             padding-top: 28px;
             border-top: 1px solid var(--border);
         }
-
+ 
         .result-label {
             font-size: 12px;
             color: var(--accent);
@@ -262,16 +262,16 @@
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
-
+ 
         .link-box { display: flex; gap: 8px; }
-
+ 
         .link-box input {
             margin-bottom: 0;
             font-size: 13px;
             color: var(--text-secondary);
             flex: 1;
         }
-
+ 
         .btn-copy {
             width: auto;
             padding: 14px 20px;
@@ -285,11 +285,11 @@
             transition: background 0.2s;
             white-space: nowrap;
         }
-
+ 
         .btn-copy:hover { background: var(--accent-border); }
-
+ 
         .instructions { margin-top: 24px; text-align: left; }
-
+ 
         .instructions-title {
             font-size: 12px;
             color: var(--accent);
@@ -298,9 +298,9 @@
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
-
+ 
         .step { display: flex; gap: 14px; margin-bottom: 12px; align-items: flex-start; }
-
+ 
         .step-num {
             background: var(--accent-light);
             color: var(--accent);
@@ -315,92 +315,105 @@
             flex-shrink: 0;
             border: 1px solid var(--accent-border);
         }
-
+ 
         .step p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; padding-top: 3px; }
         .step p strong { color: var(--text-primary); }
-
+ 
         .footer { font-size: 13px; color: var(--text-muted); margin-top: 16px; }
-
-                .faq-link {
-    display: block;
-    font-size: 14px;
-    color: var(--accent);
-    text-decoration: none;
-    margin-top: 16px;
-    margin-bottom: 8px;
-    font-weight: 600;
-    transition: opacity 0.2s;
+ 
+        .faq-link {
+            display: block;
+            font-size: 14px;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+ 
+        .faq-link:hover { opacity: 0.7; }
+ 
+        .holiday-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+ 
+        .holiday-arrow {
+            color: var(--accent);
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+ 
+        .holiday-section {
+            display: none;
+            margin-bottom: 16px;
+        }
+ 
+        input[type="date"] {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            margin-bottom: 16px;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+ 
+        input[type="date"]:focus {
+            border-color: var(--accent);
+            background: var(--accent-light);
+        }
+ 
+        .flatpickr-day.selected {
+            background: #1a7a6e;
+            border-color: #1a7a6e;
+        }
+ 
+        .flatpickr-day.selected:hover {
+            background: #1a7a6e;
+            border-color: #1a7a6e;
+        }
+        .flatpickr-input::placeholder {
+    color: var(--text-muted);
 }
-
-.faq-link:hover { opacity: 0.7; }
-
-.holiday-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin-bottom: 16px;
-    cursor: pointer;
-}
-
-.holiday-arrow {
-    color: var(--accent);
-    font-size: 16px;
-    transition: transform 0.2s;
-}
-
-.holiday-section {
-    display: none;
-    margin-bottom: 16px;
-}
-
-input[type="date"] {
-    width: 100%;
-    padding: 14px 18px;
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    color: var(--text-primary);
-    font-size: 16px;
-    margin-bottom: 16px;
-    outline: none;
-    transition: border-color 0.2s, background 0.2s;
-}
-
-input[type="date"]:focus {
-    border-color: var(--accent);
-    background: var(--accent-light);
-}
-
     </style>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
 </head>
 <body>
     <button class="theme-toggle" onclick="toggleTheme()">
         <span id="toggle-icon">🌙</span>
         <span id="toggle-label">Dark mode</span>
     </button>
-
+ 
     <div class="container">
-   <img src="{{ url_for('static', filename='logo.png') }}" alt="Prayer Blocks" style="height: 60px; width: auto; margin-bottom: 20px;">
-<p class="tagline">Never miss a prayer</p>
-<h1>Prayer times in your <span>calendar</span></h1>
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Prayer Blocks" style="height: 60px; width: auto; margin-bottom: 20px;">
+        <p class="tagline">Never miss a prayer</p>
+        <h1>Prayer times in your <span>calendar</span></h1>
         <div class="divider"></div>
         <p class="subtitle">Automatically add Fajr, Dhuhr, Asr, Maghrib and Isha to Google, Apple, or Outlook Calendar — with duration blocks so you always have time to pray.</p>
-
+ 
         <div class="features">
             <span class="feature">✦ Any city worldwide</span>
             <span class="feature">✦ Updates automatically</span>
             <span class="feature">✦ Free forever</span>
         </div>
-
+ 
         <div class="card">
             <label for="city">Your city</label>
             <input type="text" id="city" placeholder="e.g. Nottingham, London, Dubai" />
-
+ 
             <div class="reminders-toggle" onclick="toggleReminders()">
                 <div>
                     <div class="reminders-toggle-label">10 minute reminders</div>
@@ -411,41 +424,40 @@ input[type="date"]:focus {
                     <span class="slider"></span>
                 </label>
             </div>
-
-
-<div class="holiday-toggle" onclick="toggleHoliday()">
-    <div>
-        <div class="reminders-toggle-label">✈️ Travelling soon?</div>
-        <div class="reminders-toggle-sublabel">Add a holiday location override</div>
-    </div>
-    <span class="holiday-arrow" id="holiday-arrow">▸</span>
-</div>
-
-<div class="holiday-section" id="holiday-section">
-    <label for="holiday-city">Holiday city</label>
-    <input type="text" id="holiday-city" placeholder="e.g. Dubai, Cairo, Kuala Lumpur" />
-
-    <div style="display: flex; gap: 12px;">
-        <div style="flex: 1;">
-            <label for="holiday-start">From</label>
-            <input type="date" id="holiday-start" />
-        </div>
-        <div style="flex: 1;">
-            <label for="holiday-end">To</label>
-            <input type="date" id="holiday-end" />
-        </div>
-    </div>
-</div>
-
-<button class="btn-primary" onclick="generateLink()">Get my prayer calendar →</button>
-
+ 
+            <div class="holiday-toggle" onclick="toggleHoliday()">
+                <div>
+                    <div class="reminders-toggle-label">✈️ Travelling soon?</div>
+                    <div class="reminders-toggle-sublabel">Add a holiday location override</div>
+                </div>
+                <span class="holiday-arrow" id="holiday-arrow">▸</span>
+            </div>
+ 
+            <div class="holiday-section" id="holiday-section">
+                <label for="holiday-city">Holiday city</label>
+                <input type="text" id="holiday-city" placeholder="e.g. Dubai, Cairo, Kuala Lumpur" />
+ 
+                <div style="display: flex; gap: 12px;">
+                    <div style="flex: 1;">
+                        <label for="holiday-start">From</label>
+                        <input type="date" id="holiday-start" />
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="holiday-end">To</label>
+                        <input type="date" id="holiday-end" />
+                    </div>
+                </div>
+            </div>
+ 
+            <button class="btn-primary" onclick="generateLink()">Get my prayer calendar →</button>
+ 
             <div class="result" id="result">
                 <p class="result-label">Your subscription link</p>
                 <div class="link-box">
                     <input type="text" id="calendar-link" readonly />
                     <button class="btn-copy" onclick="copyLink()">Copy</button>
                 </div>
-
+ 
                 <div class="instructions">
                     <p class="instructions-title">How to subscribe</p>
                     <div class="step">
@@ -463,11 +475,12 @@ input[type="date"]:focus {
                 </div>
             </div>
         </div>
-
+ 
         <a href="/faq" class="faq-link">Have questions about how it works? Read the FAQ →</a>
-<p class="footer">No account needed · Works everywhere · Built with ♡ for the Muslim community</p>
+        <p class="footer">No account needed · Works everywhere · Built with ♡ for the Muslim community</p>
     </div>
-
+ 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
     <script>
         function toggleTheme() {
             const html = document.documentElement;
@@ -476,13 +489,13 @@ input[type="date"]:focus {
             document.getElementById('toggle-icon').textContent = isDark ? '🌙' : '☀️';
             document.getElementById('toggle-label').textContent = isDark ? 'Dark mode' : 'Light mode';
         }
-
+ 
         function toggleReminders() {
             const checkbox = document.getElementById('reminders');
             checkbox.checked = !checkbox.checked;
             updateLink();
         }
-
+ 
         function updateLink() {
             const city = document.getElementById('city').value.trim();
             if (!city) return;
@@ -490,7 +503,7 @@ input[type="date"]:focus {
             const link = `${window.location.origin}/calendar/${encodeURIComponent(city)}.ics?reminders=${reminders}`;
             document.getElementById('calendar-link').value = link;
         }
-
+ 
         function copyLink() {
             const link = document.getElementById('calendar-link');
             link.select();
@@ -499,41 +512,58 @@ input[type="date"]:focus {
             btn.textContent = 'Copied ✓';
             setTimeout(() => btn.textContent = 'Copy', 2000);
         }
-
+ 
+        function toggleHoliday() {
+            const section = document.getElementById('holiday-section');
+            const arrow = document.getElementById('holiday-arrow');
+            const isOpen = section.style.display === 'block';
+            section.style.display = isOpen ? 'none' : 'block';
+            arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(90deg)';
+        }
+ 
+        function generateLink() {
+            const city = document.getElementById('city').value.trim();
+            if (!city) {
+                alert('Please enter your city first');
+                return;
+            }
+            const reminders = document.getElementById('reminders').checked;
+            const holidayCity = document.getElementById('holiday-city').value.trim();
+            const holidayStart = document.getElementById('holiday-start').value;
+            const holidayEnd = document.getElementById('holiday-end').value;
+ 
+            let link = `${window.location.origin}/calendar/${encodeURIComponent(city)}.ics?reminders=${reminders}`;
+ 
+            if (holidayCity && holidayStart && holidayEnd) {
+                link += `&holiday_city=${encodeURIComponent(holidayCity)}`;
+                link += `&holiday_start=${holidayStart}`;
+                link += `&holiday_end=${holidayEnd}`;
+            }
+ 
+            document.getElementById('calendar-link').value = link;
+            document.getElementById('result').style.display = 'block';
+        }
+ 
         document.getElementById('city').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') generateLink();
         });
+ 
+const startPicker = flatpickr("#holiday-start", {
+    dateFormat: "Y-m-d",
+    minDate: "today",
+    altInput: true,
+    altFormat: "d M Y"
+});
+startPicker.altInput.placeholder = "e.g. 4 Jun 2026";
 
-        function toggleHoliday() {
-    const section = document.getElementById('holiday-section');
-    const arrow = document.getElementById('holiday-arrow');
-    const isOpen = section.style.display === 'block';
-    section.style.display = isOpen ? 'none' : 'block';
-    arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(90deg)';
-}
+const endPicker = flatpickr("#holiday-end", {
+    dateFormat: "Y-m-d",
+    minDate: "today",
+    altInput: true,
+    altFormat: "d M Y"
+});
+endPicker.altInput.placeholder = "e.g. 10 Jun 2026";
 
-function generateLink() {
-    const city = document.getElementById('city').value.trim();
-    if (!city) {
-        alert('Please enter your city first');
-        return;
-    }
-    const reminders = document.getElementById('reminders').checked;
-    const holidayCity = document.getElementById('holiday-city').value.trim();
-    const holidayStart = document.getElementById('holiday-start').value;
-    const holidayEnd = document.getElementById('holiday-end').value;
-
-    let link = `${window.location.origin}/calendar/${encodeURIComponent(city)}.ics?reminders=${reminders}`;
-
-    if (holidayCity && holidayStart && holidayEnd) {
-        link += `&holiday_city=${encodeURIComponent(holidayCity)}`;
-        link += `&holiday_start=${holidayStart}`;
-        link += `&holiday_end=${holidayEnd}`;
-    }
-
-    document.getElementById('calendar-link').value = link;
-    document.getElementById('result').style.display = 'block';
-}
     </script>
 </body>
 </html>
