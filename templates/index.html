@@ -334,6 +334,47 @@
 
 .faq-link:hover { opacity: 0.7; }
 
+.holiday-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    cursor: pointer;
+}
+
+.holiday-arrow {
+    color: var(--accent);
+    font-size: 16px;
+    transition: transform 0.2s;
+}
+
+.holiday-section {
+    display: none;
+    margin-bottom: 16px;
+}
+
+input[type="date"] {
+    width: 100%;
+    padding: 14px 18px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 16px;
+    margin-bottom: 16px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+input[type="date"]:focus {
+    border-color: var(--accent);
+    background: var(--accent-light);
+}
+
     </style>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
 </head>
@@ -371,7 +412,32 @@
                 </label>
             </div>
 
-            <button class="btn-primary" onclick="generateLink()">Get my prayer calendar →</button>
+
+<div class="holiday-toggle" onclick="toggleHoliday()">
+    <div>
+        <div class="reminders-toggle-label">✈️ Travelling soon?</div>
+        <div class="reminders-toggle-sublabel">Add a holiday location override</div>
+    </div>
+    <span class="holiday-arrow" id="holiday-arrow">▸</span>
+</div>
+
+<div class="holiday-section" id="holiday-section">
+    <label for="holiday-city">Holiday city</label>
+    <input type="text" id="holiday-city" placeholder="e.g. Dubai, Cairo, Kuala Lumpur" />
+
+    <div style="display: flex; gap: 12px;">
+        <div style="flex: 1;">
+            <label for="holiday-start">From</label>
+            <input type="date" id="holiday-start" />
+        </div>
+        <div style="flex: 1;">
+            <label for="holiday-end">To</label>
+            <input type="date" id="holiday-end" />
+        </div>
+    </div>
+</div>
+
+<button class="btn-primary" onclick="generateLink()">Get my prayer calendar →</button>
 
             <div class="result" id="result">
                 <p class="result-label">Your subscription link</p>
@@ -425,18 +491,6 @@
             document.getElementById('calendar-link').value = link;
         }
 
-        function generateLink() {
-            const city = document.getElementById('city').value.trim();
-            if (!city) {
-                alert('Please enter your city first');
-                return;
-            }
-            const reminders = document.getElementById('reminders').checked;
-            const link = `${window.location.origin}/calendar/${encodeURIComponent(city)}.ics?reminders=${reminders}`;
-            document.getElementById('calendar-link').value = link;
-            document.getElementById('result').style.display = 'block';
-        }
-
         function copyLink() {
             const link = document.getElementById('calendar-link');
             link.select();
@@ -449,6 +503,37 @@
         document.getElementById('city').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') generateLink();
         });
+
+        function toggleHoliday() {
+    const section = document.getElementById('holiday-section');
+    const arrow = document.getElementById('holiday-arrow');
+    const isOpen = section.style.display === 'block';
+    section.style.display = isOpen ? 'none' : 'block';
+    arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(90deg)';
+}
+
+function generateLink() {
+    const city = document.getElementById('city').value.trim();
+    if (!city) {
+        alert('Please enter your city first');
+        return;
+    }
+    const reminders = document.getElementById('reminders').checked;
+    const holidayCity = document.getElementById('holiday-city').value.trim();
+    const holidayStart = document.getElementById('holiday-start').value;
+    const holidayEnd = document.getElementById('holiday-end').value;
+
+    let link = `${window.location.origin}/calendar/${encodeURIComponent(city)}.ics?reminders=${reminders}`;
+
+    if (holidayCity && holidayStart && holidayEnd) {
+        link += `&holiday_city=${encodeURIComponent(holidayCity)}`;
+        link += `&holiday_start=${holidayStart}`;
+        link += `&holiday_end=${holidayEnd}`;
+    }
+
+    document.getElementById('calendar-link').value = link;
+    document.getElementById('result').style.display = 'block';
+}
     </script>
 </body>
 </html>
